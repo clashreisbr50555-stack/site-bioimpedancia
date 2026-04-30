@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bioimpedância: A Ciência da Composição Corporal</title>
+  <style>
+    :root {
+      --primary: #00f2ff;
+      --secondary: #0066ff;
+      --dark: #0a0a12;
+      --glass: rgba(255, 255, 255, 0.08);
+      --text: #e0e0e0;
+      --surface: rgba(255, 255, 255, 0.06);
+      --border: rgba(255, 255, 255, 0.12);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+    }
+
+    body {
+      background-color: var(--dark);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle at top left, rgba(0, 242, 255, 0.18), transparent 25%),
+        radial-gradient(circle at bottom right, rgba(0, 102, 255, 0.16), transparent 20%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    header {
+      background: linear-gradient(180deg, rgba(0, 102, 255, 0.22) 0%, rgba(10, 10, 18, 0) 100%);
+      padding: 4rem 2rem 3rem;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p.subtitle {
+      font-size: 1.1rem;
+      opacity: 0.85;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .card {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 2rem;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+      backdrop-filter: blur(12px);
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: var(--primary);
+    }
+
+    h2 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+      font-size: 1.6rem;
+    }
+
+    h3 {
+      color: #fff;
+      margin: 1.5rem 0 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    p,
+    li,
+    table {
+      color: #d8d8e7;
+    }
+
+    ul {
+      list-style: inside disc;
+      margin-top: 1rem;
+      gap: 0.5rem;
+      display: grid;
+    }
+
+    .simulation-box {
+      background: #111316;
+      border-radius: 18px;
+      padding: 2rem;
+      margin: 4rem 0;
+      border: 1px solid rgba(0, 102, 255, 0.28);
+      text-align: center;
+    }
+
+    .simulation-box p {
+      max-width: 840px;
+      margin: 0 auto;
+    }
+
+    .body-outline {
+      width: 150px;
+      height: 320px;
+      border: 2px solid var(--text);
+      margin: 2rem auto;
+      border-radius: 80px / 140px;
+      position: relative;
+    }
+
+    .body-outline::before,
+    .body-outline::after {
+      content: "";
+      position: absolute;
+      width: 22px;
+      height: 80px;
+      background: rgba(0, 242, 255, 0.18);
+      top: 40px;
+      border-radius: 12px;
+    }
+
+    .body-outline::before {
+      left: 8px;
+    }
+
+    .body-outline::after {
+      right: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    th,
+    td {
+      padding: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      text-align: left;
+    }
+
+    th {
+      color: var(--secondary);
+      background: rgba(0, 102, 255, 0.08);
+    }
+
+    .note {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: rgba(0, 102, 255, 0.08);
+      border-radius: 14px;
+      border: 1px solid rgba(0, 102, 255, 0.18);
+    }
+
+    @media (max-width: 680px) {
+      .container {
+        padding: 1.5rem 1rem 3rem;
+      }
+
+      .card {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Bioimpedância: A Ciência da Composição Corporal</h1>
+    <p class="subtitle">Descubra como essa técnica não invasiva usa resistência elétrica para estimar gordura, água e massa magra do corpo.</p>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>O que é Bioimpedância?</h2>
+      <p>A bioimpedância é uma técnica não invasiva que mede a resistência elétrica dos tecidos do corpo quando uma corrente de baixa amplitude e alta frequência atravessa o organismo.</p>
+      <h3>Princípios físicos</h3>
+      <ul>
+        <li>Água e eletrólitos conduzem corrente melhor que gordura.</li>
+        <li>Músculos e tecidos magros apresentam menor resistência do que a gordura corporal.</li>
+      </ul>
+      <h3>Funcionamento básico</h3>
+      <ul>
+        <li>Dois pares de eletrodos são posicionados em pontos específicos, como mãos e pés.</li>
+        <li>Uma corrente alternada de aproximadamente 50 kHz é aplicada.</li>
+        <li>A tensão resultante é medida e a impedância (Z) é calculada usando Z = V / I.</li>
+        <li>Softwares convertem Z em percentual de gordura, massa magra e água corporal.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Como funciona o aparelho</h2>
+      <p>Os aparelhos de bioimpedância combinam eletrônica de medição com algoritmos para analisar a composição corporal de forma rápida e prática.</p>
+      <h3>Componentes principais</h3>
+      <ul>
+        <li><strong>Fonte de corrente:</strong> gerador de sinal AC de 250 µA a 1 mA, tipicamente entre 1 e 100 kHz.</li>
+        <li><strong>Eletrodos:</strong> geralmente prata ou óxido de prata, fixados em mãos e pés.</li>
+        <li><strong>Circuito de medição:</strong> mede tensão e realiza conversão analógico-digital (ADC).</li>
+        <li><strong>Microcontrolador:</strong> processa os dados e calcula a composição corporal.</li>
+        <li><strong>Interface:</strong> exibe resultados como peso, percentual de gordura e IMC.</li>
+      </ul>
+      <h3>Fluxo de operação</h3>
+      <p>Corrente → Tecido → Tensão medida → Cálculo de impedância → Conversão em dados de composição → Exibição.</p>
+    </section>
+
+    <section class="card">
+      <h2>Detalhes técnicos da medição</h2>
+      <p>O tipo de equipamento e os métodos de medição definem a precisão dos resultados e a quantidade de informações obtidas.</p>
+      <h3>Tipos de bioimpedância</h3>
+      <ul>
+        <li><strong>Monofrequencial (50 kHz):</strong> padrão em aparelhos domésticos.</li>
+        <li><strong>Multifrequencial (5–200 kHz):</strong> usado em clínicas para avaliar diferentes tecidos.</li>
+        <li><strong>Modelo tetrapolar:</strong> reduz erros de contato e melhora a precisão.</li>
+      </ul>
+      <h3>Fatores que influenciam a medição</h3>
+      <ul>
+        <li>Hidratação: desidratação aumenta a resistência.</li>
+        <li>Posição dos eletrodos: distância e posicionamento afetam a impedância.</li>
+        <li>Temperatura corporal: altera a condutividade dos tecidos.</li>
+        <li>Sexo, idade e etnia: impactam a distribuição de água e tecido corporal.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Interpretação dos resultados</h2>
+      <p>Os valores obtidos pela bioimpedância devem ser analisados em conjunto com dados clínicos, idade e sexo.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Parâmetro</th>
+            <th>Faixa saudável (adulto)</th>
+            <th>O que indica alta/baixa</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>% Gordura</td>
+            <td>Homem: 10–20% / Mulher: 20–30%</td>
+            <td>Abaixo de 5%: risco de deficiência; acima de 30%: obesidade.</td>
+          </tr>
+          <tr>
+            <td>Água Corporal</td>
+            <td>50–60% do peso corporal</td>
+            <td>Abaixo de 50%: desidratação.</td>
+          </tr>
+          <tr>
+            <td>Massa Muscular</td>
+            <td>Homem: 33–39% / Mulher: 24–30%</td>
+            <td>Valores baixos: sarcopenia.</td>
+          </tr>
+          <tr>
+            <td>Taxa Metabólica</td>
+            <td>Depende de idade, sexo e composição</td>
+            <td>Valores baixos: metabolismo lento.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>Precisão e limitações</h2>
+      <p>A bioimpedância oferece boa relação custo-benefício, mas é sensível a variáveis fisiológicas e de uso.</p>
+      <ul>
+        <li>Medições após exercício ou banho podem alterar eletrólitos e resultados.</li>
+        <li>Eletrodos sujos ou mal posicionados aumentam a incerteza.</li>
+        <li>Cremes ou loções na pele interferem na condutividade.</li>
+      </ul>
+      <div class="note">
+        <strong>Comparação com outros métodos:</strong>
+        <ul>
+          <li>DEXA: padrão-ouro, mas caro e com exposição a radiação.</li>
+          <li>Pesagem hidrostática: precisa, mas pouco prática para uso doméstico.</li>
+          <li>Bioimpedância: margem de erro típica de 3–5% em modelos residenciais.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Prototipagem básica</h2>
+      <p>Um protótipo simples pode ser construído com um microcontrolador, circuito de medição e eletrodos adequados.</p>
+      <h3>Hardware sugerido</h3>
+      <ul>
+        <li>Microcontrolador: ESP32 ou Arduino Nano.</li>
+        <li>Medidor de tensão AC: componente como MAX30003 ou circuito equivalente.</li>
+        <li>Eletrodos: aço inox ou prata, montados em mãos e pés.</li>
+        <li>Fonte de alimentação: USB ou bateria 9V.</li>
+      </ul>
+      <h3>Software sugerido</h3>
+      <ul>
+        <li>Biblioteca para cálculo de impedância em tempo real.</li>
+        <li>Algoritmos públicos, como a fórmula de Lukaski, para estimar percentuais.</li>
+      </ul>
+      <pre style="background: rgba(255,255,255,0.05); border-radius: 14px; padding: 1rem; overflow-x: auto; margin-top: 1rem;">
+float corrente = 500e-6; // 500 µA
+float tensao = medirTensao(); // Função do ADC
+float impedancia = tensao / corrente;
+float gordura = calcularGordura(impedancia, idade, sexo);
+      </pre>
+    </section>
+
+    <div class="simulation-box">
+      <h2>Simulação conceitual</h2>
+      <p>Este é um conceito de visualização para entender o fluxo de um sistema de bioimpedância.</p>
+      <div class="body-outline"></div>
+      <p>O sinal elétrico atravessa o corpo, a diferença de potencial é medida e transformada em dados úteis de composição corporal.</p>
+    </div>
+  </main>
+</body>
+</html>
